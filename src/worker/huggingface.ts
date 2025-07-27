@@ -59,7 +59,7 @@ export class HuggingFaceScraper {
   }
   private async extractAbstraction(
     url: string,
-    c: any,
+    c: Record<string, any>,
   ): Promise<{ abstract: string; date_published: string | null, author: string }> {
     const res = await fetch(url);
     let abstract = "";
