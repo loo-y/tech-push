@@ -13,7 +13,7 @@ export class AudioUploadService {
 
   constructor(bucket: R2Bucket, baseUrl?: string) {
     this.bucket = bucket;
-    this.baseUrl = baseUrl || 'https://insightcast-bucket.r2.cloudflarestorage.com';
+    this.baseUrl = baseUrl || 'https://insightcast-bucket.r2.cloudflarestorage.com/';
   }
 
   /**
@@ -30,7 +30,7 @@ export class AudioUploadService {
     const extension = filename.includes('.') ? '' : '.mp3';
     const finalFilename = filename.includes('.') ? filename : `${filename}${extension}`;
     
-    return `/${year}/${month}${day}/${finalFilename}`;
+    return `${year}/${month}${day}/${finalFilename}`;
   }
 
   /**
@@ -132,7 +132,7 @@ export class AudioUploadService {
     error?: string;
   }> {
     try {
-      const prefix = `/${year}/${monthDay}/`;
+      const prefix = `${year}/${monthDay}/`;
       const objects = await this.bucket.list({ prefix });
 
       const files = objects.objects.map(obj => ({

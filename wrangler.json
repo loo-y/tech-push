@@ -18,5 +18,8 @@
 			"binding": "INSIGHTCAST_BUCKET",
 			"bucket_name": "insightcast-bucket"
 		}
-	]
+	],
+	"vars": {
+		"R2_BASE_URL": "https://insightcast.123721.xyz/"
+	}
 }
