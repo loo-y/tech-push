@@ -32,6 +32,7 @@ function App() {
         </a>
       </div>
       <h1>Vite + React + Hono + Cloudflare</h1>
+      
       <div className="card">
         <button
           onClick={() => setCount((count) => count + 1)}
@@ -43,6 +44,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+      
       <div className="card">
         <button
           onClick={() => {
@@ -58,6 +60,28 @@ function App() {
           Edit <code>worker/index.ts</code> to change the name
         </p>
       </div>
+
+      {/* 功能链接 */}
+      <div className="feature-links">
+        <h3>🚀 功能页面</h3>
+        <div className="link-grid">
+          <a href="/audio-upload" className="feature-link">
+            <div className="feature-icon">🎵</div>
+            <div className="feature-content">
+              <h4>音频文件管理</h4>
+              <p>上传、管理和分享音频文件</p>
+            </div>
+          </a>
+          <a href="/api/audio/status" className="feature-link" target="_blank">
+            <div className="feature-icon">📊</div>
+            <div className="feature-content">
+              <h4>API 状态</h4>
+              <p>查看服务运行状态</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      
       <p className="read-the-docs">Click on the logos to learn more</p>
     </>
   );

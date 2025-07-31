@@ -4,4 +4,12 @@ import { cloudflare } from "@cloudflare/vite-plugin";
 
 export default defineConfig({
   plugins: [react(), cloudflare()],
+  build: {
+    rollupOptions: {
+      input: {
+        main: "index.html",
+        audio: "src/react-app/audio-upload.html"
+      }
+    }
+  }
 });
