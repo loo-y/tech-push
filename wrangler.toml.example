@@ -44,10 +44,10 @@ directory = "./dist/client"
 # 可以配置多个 R2 桶。
 [[r2_buckets]]
 # Worker 代码中用于访问此 R2 桶的变量名（例如 env.INSIGHTCAST_BUCKET）。
-binding = "INSIGHTCAST_BUCKET"
+binding = "<R2_BUCKET_BINDING_NAME>"
 # 实际的 R2 桶名称。建议使用环境变量来管理不同环境的桶名称。
-bucket_name = "insightcast-bucket"
-preview_bucket_name = "insightcast-bucket-dev"
+bucket_name = "<YOUR_R2_BUCKET_NAME>"
+preview_bucket_name = "<YOUR_R2_BUCKET_NAME_PREVIEW>"
 # 示例：bucket_name = "${R2_BUCKET_NAME}" # 使用环境变量
 
 # D1 数据库配置。用于将 Worker 与 Cloudflare D1 数据库绑定。
@@ -57,12 +57,12 @@ preview_bucket_name = "insightcast-bucket-dev"
 # Worker 代码中用于访问此 D1 数据库的变量名（例如 env.PODCAST_DB）。
 binding = "PODCAST_DB"
 # D1 数据库的名称。
-database_name = "podcast-db"
+database_name = "<YOUR_D1_DATABASE_NAME>"
 # D1 数据库的 ID。这是 Cloudflare 内部用于唯一标识数据库的 ID。
 # 强烈建议使用环境变量来管理生产和预览环境的数据库 ID。
-database_id = "${D1_DATABASE_ID}"
-preview_database_id = "${D1_DATABASE_ID_PREVIEW}"
-# 示例：preview_database_id = "${D1_PREVIEW_DATABASE_ID}" # 预览环境的数据库 ID
+database_id = "<YOUR_D1_DATABASE_ID>"
+preview_database_id = "<YOUR_D1_DATABASE_ID_PREVIEW>"
+# 示例：preview_database_id = "<YOUR_D1_PREVIEW_DATABASE_ID>" # 预览环境的数据库 ID
 
 # 环境变量。这些变量将在 Worker 运行时注入到 env 对象中。
 # 可以在 Worker 代码中通过 env.VARIABLE_NAME 访问。

@@ -40,3 +40,6 @@ dist-ssr
 *.pem
 secrets/
 *.secret
+
+wrangler.toml
+wrangler.dev.toml
