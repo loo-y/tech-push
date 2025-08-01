@@ -19,12 +19,12 @@ export class PodcastXmlGenerator {
       ${channel.subcategory ? `<itunes:category text="${this.escapeXml(channel.subcategory)}" />` : ''}
     </itunes:category>
     <itunes:explicit>${channel.explicit ? 'yes' : 'no'}</itunes:explicit>
-    <itunes:image href="${channel.imageUrl}" />
-    ${channel.websiteUrl ? `<itunes:owner>
+    <itunes:image href="${channel.image_url}" />
+    ${channel.website_url ? `<itunes:owner>
       <itunes:name>${this.escapeXml(channel.author)}</itunes:name>
       <itunes:email>${channel.email}</itunes:email>
     </itunes:owner>` : ''}
-    <atom:link href="${baseUrl}/api/podcast/feed" rel="self" type="application/rss+xml" />
+    <atom:link href="${baseUrl}/feed" rel="self" type="application/rss+xml" />
     
     ${episodes.map(episode => this.generateEpisodeXml(episode, baseUrl)).join('\n    ')}
   </channel>
@@ -38,21 +38,22 @@ export class PodcastXmlGenerator {
    */
   private static generateEpisodeXml(episode: PodcastEpisode, baseUrl: string): string {
     const duration = episode.duration ? this.formatDuration(episode.duration) : '';
-    const fileSize = episode.fileSize ? episode.fileSize.toString() : '';
-    
+    const file_size = episode.file_size ? episode.file_size.toString() : '';
+    const keywords = this.parseKeywords(episode.keywords as string);
+    const audio_url = episode.audio_url.replace(/\/$/, '') + '/' + episode.audio_path.replace(/^\//, '');
     return `<item>
       <title>${this.escapeXml(episode.title)}</title>
       <description>${this.escapeXml(episode.description)}</description>
       ${episode.content ? `<content:encoded><![CDATA[${episode.content}]]></content:encoded>` : ''}
-      <link>${baseUrl}/episode/${episode.id}</link>
+      <link>${baseUrl}/episodes/${episode.id}</link>
       <guid isPermaLink="false">${episode.id}</guid>
-      <pubDate>${this.formatDate(episode.publishDate)}</pubDate>
-      <enclosure url="${episode.audioUrl}" length="${fileSize}" type="audio/mpeg" />
+      <pubDate>${this.formatDate(episode.publish_date)}</pubDate>
+      <enclosure url="${audio_url}" length="${file_size}" type="audio/mpeg" />
       <itunes:duration>${duration}</itunes:duration>
       <itunes:explicit>${episode.explicit ? 'yes' : 'no'}</itunes:explicit>
       ${episode.author ? `<itunes:author>${this.escapeXml(episode.author)}</itunes:author>` : ''}
-      ${episode.imageUrl ? `<itunes:image href="${episode.imageUrl}" />` : ''}
-      ${episode.keywords && episode.keywords.length > 0 ? `<itunes:keywords>${episode.keywords.join(',')}</itunes:keywords>` : ''}
+      ${episode.image_url ? `<itunes:image href="${episode.image_url}" />` : ''}
+      ${keywords && keywords.length > 0 ? `<itunes:keywords>${keywords.join(',')}</itunes:keywords>` : ''}
       ${episode.season ? `<itunes:season>${episode.season}</itunes:season>` : ''}
       ${episode.episode ? `<itunes:episode>${episode.episode}</itunes:episode>` : ''}
     </item>`;
@@ -90,6 +91,15 @@ export class PodcastXmlGenerator {
       return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     } else {
       return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+
+  private static parseKeywords(keywords: string) {
+    if (!keywords) return [];
+    try {
+      return JSON.parse(keywords);
+    } catch (error) {
+      return [];
     }
   }
 } 

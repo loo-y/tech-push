@@ -6,19 +6,19 @@ interface PodcastEpisode {
   title: string;
   description: string;
   content?: string;
-  audioUrl: string;
-  audioPath: string;
+  audio_url: string;
+  audio_path: string;
   duration?: number;
-  fileSize?: number;
-  publishDate: string;
+  file_size?: number;
+  publish_date: string;
   author?: string;
   keywords?: string[];
-  imageUrl?: string;
+  image_url?: string;
   explicit?: boolean;
   season?: number;
   episode?: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface PodcastChannel {
@@ -30,11 +30,11 @@ interface PodcastChannel {
   email: string;
   category: string;
   subcategory?: string;
-  imageUrl: string;
-  websiteUrl?: string;
+  image_url: string;
+  website_url?: string;
   explicit: boolean;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 const PodcastPage: React.FC = () => {
@@ -50,13 +50,13 @@ const PodcastPage: React.FC = () => {
     title: '',
     description: '',
     content: '',
-    audioUrl: '',
-    audioPath: '',
+    audio_url: '',
+    audio_path: '',
     duration: '',
-    fileSize: '',
+    file_size: '',
     author: '',
     keywords: '',
-    imageUrl: '',
+    image_url: '',
     explicit: false,
     season: '',
     episode: ''
@@ -71,8 +71,8 @@ const PodcastPage: React.FC = () => {
     email: '',
     category: '',
     subcategory: '',
-    imageUrl: '',
-    websiteUrl: '',
+    image_url: '',
+    website_url: '',
     explicit: false
   });
 
@@ -113,8 +113,8 @@ const PodcastPage: React.FC = () => {
           email: channelData.channel.email,
           category: channelData.channel.category,
           subcategory: channelData.channel.subcategory || '',
-          imageUrl: channelData.channel.imageUrl || '',
-          websiteUrl: channelData.channel.websiteUrl || '',
+          image_url: channelData.channel.image_url || '',
+          website_url: channelData.channel.website_url || '',
           explicit: channelData.channel.explicit
         });
       }
@@ -132,7 +132,7 @@ const PodcastPage: React.FC = () => {
       const episodeData = {
         ...newEpisode,
         duration: newEpisode.duration ? parseInt(newEpisode.duration) : undefined,
-        fileSize: newEpisode.fileSize ? parseInt(newEpisode.fileSize) : undefined,
+        file_size: newEpisode.file_size ? parseInt(newEpisode.file_size) : undefined,
         season: newEpisode.season ? parseInt(newEpisode.season) : undefined,
         episode: newEpisode.episode ? parseInt(newEpisode.episode) : undefined,
         keywords: newEpisode.keywords ? newEpisode.keywords.split(',').map(k => k.trim()) : undefined
@@ -150,8 +150,8 @@ const PodcastPage: React.FC = () => {
       if (response.ok) {
         setShowCreateForm(false);
         setNewEpisode({
-          title: '', description: '', content: '', audioUrl: '', audioPath: '',
-          duration: '', fileSize: '', author: '', keywords: '', imageUrl: '',
+          title: '', description: '', content: '', audio_url: '', audio_path: '',
+          duration: '', file_size: '', author: '', keywords: '', image_url: '',
           explicit: false, season: '', episode: ''
         });
         loadData();
@@ -276,7 +276,7 @@ const PodcastPage: React.FC = () => {
           <h2>📻 频道信息</h2>
           <div className="channel-details">
             <div className="channel-image">
-              <img src={channel.imageUrl || '/default-podcast-image.jpg'} alt="频道封面" />
+              <img src={channel.image_url || '/default-podcast-image.jpg'} alt="频道封面" />
             </div>
             <div className="channel-text">
               <h3>{channel.title}</h3>
@@ -306,7 +306,7 @@ const PodcastPage: React.FC = () => {
               <div key={episode.id} className="episode-card">
                 <div className="episode-image">
                   <img 
-                    src={episode.imageUrl || channel?.imageUrl || '/default-episode-image.jpg'} 
+                    src={episode.image_url || channel?.image_url || '/default-episode-image.jpg'} 
                     alt={episode.title} 
                   />
                 </div>
@@ -315,11 +315,11 @@ const PodcastPage: React.FC = () => {
                   <p className="episode-description">{episode.description}</p>
                   <div className="episode-meta">
                     <span>⏱️ {formatDuration(episode.duration)}</span>
-                    <span>📦 {formatFileSize(episode.fileSize)}</span>
-                    <span>📅 {new Date(episode.publishDate).toLocaleDateString()}</span>
+                    <span>📦 {formatFileSize(episode.file_size)}</span>
+                    <span>📅 {new Date(episode.publish_date).toLocaleDateString()}</span>
                   </div>
                   <div className="episode-actions">
-                    <a href={episode.audioUrl} target="_blank" className="btn btn-small">
+                    <a href={episode.audio_url} target="_blank" className="btn btn-small">
                       🎵 播放
                     </a>
                     <button 
@@ -378,8 +378,8 @@ const PodcastPage: React.FC = () => {
                   <label>音频URL *</label>
                   <input
                     type="url"
-                    value={newEpisode.audioUrl}
-                    onChange={(e) => setNewEpisode({...newEpisode, audioUrl: e.target.value})}
+                    value={newEpisode.audio_url}
+                    onChange={(e) => setNewEpisode({...newEpisode, audio_url: e.target.value})}
                     required
                   />
                 </div>
@@ -388,8 +388,8 @@ const PodcastPage: React.FC = () => {
                   <label>音频路径 *</label>
                   <input
                     type="text"
-                    value={newEpisode.audioPath}
-                    onChange={(e) => setNewEpisode({...newEpisode, audioPath: e.target.value})}
+                    value={newEpisode.audio_path}
+                    onChange={(e) => setNewEpisode({...newEpisode, audio_path: e.target.value})}
                     placeholder="/2025/0730/episode.mp3"
                     required
                   />
@@ -410,8 +410,8 @@ const PodcastPage: React.FC = () => {
                   <label>文件大小（字节）</label>
                   <input
                     type="number"
-                    value={newEpisode.fileSize}
-                    onChange={(e) => setNewEpisode({...newEpisode, fileSize: e.target.value})}
+                    value={newEpisode.file_size}
+                    onChange={(e) => setNewEpisode({...newEpisode, file_size: e.target.value})}
                   />
                 </div>
               </div>
@@ -442,8 +442,8 @@ const PodcastPage: React.FC = () => {
                   <label>封面图片URL</label>
                   <input
                     type="url"
-                    value={newEpisode.imageUrl}
-                    onChange={(e) => setNewEpisode({...newEpisode, imageUrl: e.target.value})}
+                    value={newEpisode.image_url}
+                    onChange={(e) => setNewEpisode({...newEpisode, image_url: e.target.value})}
                   />
                 </div>
                 
@@ -582,8 +582,8 @@ const PodcastPage: React.FC = () => {
                 <label>封面图片URL</label>
                 <input
                   type="url"
-                  value={channelForm.imageUrl}
-                  onChange={(e) => setChannelForm({...channelForm, imageUrl: e.target.value})}
+                  value={channelForm.image_url}
+                  onChange={(e) => setChannelForm({...channelForm, image_url: e.target.value})}
                 />
               </div>
               
@@ -591,8 +591,8 @@ const PodcastPage: React.FC = () => {
                 <label>网站URL</label>
                 <input
                   type="url"
-                  value={channelForm.websiteUrl}
-                  onChange={(e) => setChannelForm({...channelForm, websiteUrl: e.target.value})}
+                  value={channelForm.website_url}
+                  onChange={(e) => setChannelForm({...channelForm, website_url: e.target.value})}
                 />
               </div>
               

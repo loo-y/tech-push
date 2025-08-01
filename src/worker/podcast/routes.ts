@@ -25,7 +25,7 @@ podcastRoutes.get("/feed", async (c) => {
       return c.json({ error: "频道信息未找到" }, 404);
     }
 
-    const baseUrl = c.req.url.replace('/api/podcast/feed', '');
+    const baseUrl = c.req.url.replace('/feed', '');
     const xml = PodcastXmlGenerator.generateRssFeed({
       channel,
       episodes,
@@ -50,25 +50,25 @@ podcastRoutes.post("/episodes", authenticateApiKey, async (c) => {
   try {
     const body = await c.req.json();
     // 验证必需字段
-    if (!body.title || !body.description || !body.audioUrl || !body.audioPath) {
+    if (!body.title || !body.description || !body.audio_url || !body.audio_path) {
       return c.json({
         success: false,
-        error: "缺少必需字段：title, description, audioUrl, audioPath"
+        error: "缺少必需字段：title, description, audio_url, audio_path"
       }, 400);
     }
 
-    const episode: Omit<PodcastEpisode, 'id' | 'createdAt' | 'updatedAt'> = {
+    const episode: Omit<PodcastEpisode, 'id' | 'created_at' | 'updated_at'> = {
       title: body.title,
       description: body.description,
       content: body.content || undefined,
-      audioUrl: body.audioUrl,
-      audioPath: body.audioPath,
+      audio_url: body.audio_url,
+      audio_path: body.audio_path,
       duration: body.duration || undefined,
-      fileSize: body.fileSize || undefined,
-      publishDate: body.publishDate || new Date().toISOString(),
+      file_size: body.file_size || undefined,
+      publish_date: body.publish_date || new Date().toISOString(),
       author: body.author || undefined,
       keywords: body.keywords || undefined,
-      imageUrl: body.imageUrl || undefined,
+      image_url: body.image_url || undefined,
       explicit: body.explicit || false,
       season: body.season || undefined,
       episode: body.episode || undefined
@@ -260,7 +260,7 @@ async function getEpisode(db: D1Database, id: string): Promise<PodcastEpisode | 
   return result as PodcastEpisode | null;
 }
 
-async function createEpisode(db: D1Database, episode: Omit<PodcastEpisode, 'id' | 'createdAt' | 'updatedAt'>): Promise<{
+async function createEpisode(db: D1Database, episode: Omit<PodcastEpisode, 'id' | 'created_at' | 'updated_at'>): Promise<{
   success: boolean;
   episode?: PodcastEpisode;
   error?: string;
@@ -280,14 +280,14 @@ async function createEpisode(db: D1Database, episode: Omit<PodcastEpisode, 'id' 
       episode.title, 
       episode.description, 
       episode.content ?? null,
-      episode.audioUrl, 
-      episode.audioPath, 
+      episode.audio_url, 
+      episode.audio_path, 
       episode.duration ?? null,
-      episode.fileSize ?? null, 
-      episode.publishDate, 
+      episode.file_size ?? null, 
+      episode.publish_date, 
       episode.author ?? null,
       JSON.stringify(episode.keywords ?? []), 
-      episode.imageUrl ?? null,
+      episode.image_url ?? null,
       episode.explicit ? 1 : 0, 
       episode.season ?? null, 
       episode.episode ?? null,
@@ -334,14 +334,14 @@ async function updateEpisode(db: D1Database, id: string, updates: Partial<Podcas
       updates.title ?? null, 
       updates.description ?? null, 
       updates.content ?? null,
-      updates.audioUrl ?? null, 
-      updates.audioPath ?? null, 
+      updates.audio_url ?? null, 
+      updates.audio_path ?? null, 
       updates.duration ?? null,
-      updates.fileSize ?? null, 
-      updates.publishDate ?? null, 
+      updates.file_size ?? null, 
+      updates.publish_date ?? null, 
       updates.author ?? null,
       updates.keywords ? JSON.stringify(updates.keywords) : null,
-      updates.imageUrl ?? null, 
+      updates.image_url ?? null, 
       updates.explicit !== undefined ? (updates.explicit ? 1 : 0) : null,
       updates.season ?? null, 
       updates.episode ?? null, 
@@ -405,8 +405,8 @@ async function updateChannelInfo(db: D1Database, updates: Partial<PodcastChannel
       updates.email ?? null, 
       updates.category ?? null,
       updates.subcategory ?? null, 
-      updates.imageUrl ?? null, 
-      updates.websiteUrl ?? null,
+      updates.image_url ?? null, 
+      updates.website_url ?? null,
       updates.explicit !== undefined ? (updates.explicit ? 1 : 0) : null, 
       now
     ).run();

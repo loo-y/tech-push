@@ -6467,7 +6467,7 @@ type ImageInfoResponse = {
     format: 'image/svg+xml';
 } | {
     format: string;
-    fileSize: number;
+    file_size: number;
     width: number;
     height: number;
 };
