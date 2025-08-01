@@ -72,6 +72,13 @@ function App() {
               <p>上传、管理和分享音频文件</p>
             </div>
           </a>
+          <a href="/podcast" className="feature-link">
+            <div className="feature-icon">🎙️</div>
+            <div className="feature-content">
+              <h4>播客管理</h4>
+              <p>创建和管理播客节目，生成 RSS Feed</p>
+            </div>
+          </a>
           <a href="/api/audio/status" className="feature-link" target="_blank">
             <div className="feature-icon">📊</div>
             <div className="feature-content">

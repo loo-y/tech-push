@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { HuggingFaceScraper } from "./huggingface/dailypapers";
 import { audioRoutes } from "./audio/routes";
+import { podcastRoutes } from "./podcast/routes";
 
 // 根据文件扩展名获取 Content-Type
 function getContentType(filename: string): string {
@@ -23,6 +24,8 @@ function getContentType(filename: string): string {
 
 interface Env {
   INSIGHTCAST_BUCKET: R2Bucket;
+  PODCAST_DB: D1Database;
+  API_SECRET_KEY?: string;
 }
 
 const app = new Hono<{ Bindings: Env }>();
@@ -31,6 +34,11 @@ const app = new Hono<{ Bindings: Env }>();
 app.get("/audio-upload", async (c) => {
   // 重定向到构建好的音频上传页面
   return c.redirect("/src/react-app/audio-upload.html");
+});
+
+app.get("/podcast", async (c) => {
+  // 重定向到构建好的播客管理页面
+  return c.redirect("/src/react-app/podcast.html");
 });
 
 // API路由
@@ -83,6 +91,9 @@ app.get("/protected/:year/:monthDay/:filename", async (c) => {
 
 // 音频上传相关路由
 app.route("/api/audio", audioRoutes);
+
+// 播客相关路由
+app.route("/api/podcast", podcastRoutes);
 
 export default app;
 

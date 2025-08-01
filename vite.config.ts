@@ -8,7 +8,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
-        audio: "src/react-app/audio-upload.html"
+        audio: "src/react-app/audio-upload.html",
+        podcast: "src/react-app/podcast.html"
       }
     }
   }

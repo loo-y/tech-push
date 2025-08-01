@@ -1,0 +1,8 @@
+# 开发环境变量示例文件
+# 复制此文件为 .dev.vars 并填入实际值
+
+# D1 数据库 ID（开发环境）
+D1_DATABASE_ID=your-development-database-id-here
+
+# R2 基础 URL（开发环境）
+R2_BASE_URL=http://localhost:8787

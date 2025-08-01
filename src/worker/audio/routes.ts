@@ -1,16 +1,18 @@
 import { Hono } from "hono";
 import { AudioUploadService } from "./upload";
+import { authenticateApiKey } from "../middleware/auth";
 
 interface Env {
   INSIGHTCAST_BUCKET: R2Bucket;
   ENVIRONMENT?: string;
   R2_BASE_URL?: string;
+  API_SECRET_KEY?: string;
 }
 
 export const audioRoutes = new Hono<{ Bindings: Env }>();
 
-// 上传音频文件
-audioRoutes.post("/upload", async (c) => {
+// 上传音频文件（需要认证）
+audioRoutes.post("/upload", authenticateApiKey, async (c) => {
   try {
     const formData = await c.req.formData();
     const file = formData.get("file") as File;
@@ -89,8 +91,8 @@ audioRoutes.get("/files/:year/:monthDay", async (c) => {
   }
 });
 
-// 删除音频文件
-audioRoutes.delete("/files/:path", async (c) => {
+// 删除音频文件（需要认证）
+audioRoutes.delete("/files/:path", authenticateApiKey, async (c) => {
   try {
     const filePath = c.req.param("path");
     
