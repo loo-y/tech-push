@@ -69,3 +69,4 @@ preview_database_id = "<YOUR_D1_DATABASE_ID_PREVIEW>"
 [vars]
 # R2 桶的基础 URL。这通常是你的 R2 桶的公共 URL，用于构建静态资产的完整路径。
 # 建议使用环境变量来管理不同环境的基础 URL。
+R2_BASE_URL = "<YOUR_R2_BASE_URL>"
