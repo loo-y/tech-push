@@ -34,6 +34,7 @@ audioRoutes.post("/upload", authenticateApiKey, async (c) => {
         success: true,
         path: result.path,
         url: result.url,
+        baseUrl: result.baseUrl,
         message: "文件上传成功"
       });
     } else {

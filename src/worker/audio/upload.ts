@@ -73,6 +73,7 @@ export class AudioUploadService {
     path?: string;
     error?: string;
     url?: string;
+    baseUrl?: string;
   }> {
     try {
       // 验证文件
@@ -111,7 +112,8 @@ export class AudioUploadService {
       return {
         success: true,
         path: filePath,
-        url: url
+        url: url,
+        baseUrl: this.baseUrl,
       };
 
     } catch (error) {

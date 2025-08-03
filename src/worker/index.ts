@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { HuggingFaceScraper } from "./huggingface/dailypapers";
 import { audioRoutes } from "./audio/routes";
-import { podcastRoutes } from "./podcast/routes";
+import { podcastRoutes, podcastFeed } from "./podcast/routes";
 
 // 根据文件扩展名获取 Content-Type
 function getContentType(filename: string): string {
@@ -29,6 +29,9 @@ interface Env {
 }
 
 const app = new Hono<{ Bindings: Env }>();
+
+// podcast feed
+app.get("/podcast", podcastFeed);
 
 // 页面路由 - 重定向到构建好的HTML文件
 app.get("/audio-upload", async (c) => {

@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono, Context } from "hono";
 import { PodcastXmlGenerator } from "./xml-generator";
 import { PodcastChannel, PodcastEpisode } from "./types";
 import { authenticateApiKey } from "../middleware/auth";
@@ -14,8 +14,7 @@ export const podcastRoutes = new Hono<{ Bindings: Env }>();
 
 
 
-// 获取 RSS Feed XML
-podcastRoutes.get("/feed", async (c) => {
+export const podcastFeed = async (c: Context) => {
   try {
     // 从数据库获取频道信息和节目列表
     const channel = await getChannelInfo(c.env.PODCAST_DB);
@@ -34,7 +33,7 @@ podcastRoutes.get("/feed", async (c) => {
 
     return new Response(xml, {
       headers: {
-        'Content-Type': 'application/rss+xml; charset=utf-8',
+        'Content-Type': 'application/xml; charset=utf-8',
         'Cache-Control': 'public, max-age=3600' // 1小时缓存
       }
     });
@@ -43,7 +42,11 @@ podcastRoutes.get("/feed", async (c) => {
     console.error("生成 RSS Feed 失败:", error);
     return c.json({ error: "服务器内部错误" }, 500);
   }
-});
+}
+
+// 获取 RSS Feed XML
+podcastRoutes.get("/feed", podcastFeed);
+
 
 // 创建新节目（需要认证）
 podcastRoutes.post("/episodes", authenticateApiKey, async (c) => {
