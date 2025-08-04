@@ -40,7 +40,7 @@ app.get("/audio-upload", async (c) => {
   return c.redirect("/src/react-app/audio-upload.html");
 });
 
-app.get("/podcast", async (c) => {
+app.get("/podcast-admin", async (c) => {
   // 重定向到构建好的播客管理页面
   return c.redirect("/src/react-app/podcast.html");
 });

@@ -72,7 +72,7 @@ function App() {
               <p>上传、管理和分享音频文件</p>
             </div>
           </a>
-          <a href="/podcast" className="feature-link">
+          <a href="/podcast-admin" className="feature-link">
             <div className="feature-icon">🎙️</div>
             <div className="feature-content">
               <h4>播客管理</h4>
