@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { HuggingFaceScraper } from "./huggingface/dailypapers";
+import { HuggingFaceScraper as HuggingFaceTrendingScraper } from "./huggingface/trendingpapers";
 import { audioRoutes } from "./audio/routes";
 import { podcastRoutes, podcastFeed } from "./podcast/routes";
 
@@ -50,6 +51,13 @@ app.get("/api/huggingface/dailypapers", async (c) => {
     const papers = await scraper.fetchPapers(c);
     return c.json(papers);
 });
+
+app.get("/api/huggingface/trendingpapers", async (c) => {
+  const scraper = new HuggingFaceTrendingScraper();
+  const papers = await scraper.fetchPapers(c);
+  return c.json(papers);
+});
+
 
 app.get("/api/", (c) => c.json({ name: "Cloudflare" }));
 
