@@ -7,6 +7,10 @@ interface Paper {
   arxiv_url: string;
   date_published: string | null;
   author: string;
+  media?: {
+    url: string;
+    type: string;
+  }[];
   upvotes: number;
 }
 export class HuggingFaceScraper {
@@ -43,6 +47,30 @@ export class HuggingFaceScraper {
             paperItem: { url: href ? `https://huggingface.co${href}` : "" }
           });
           // console.log(`result`, result);
+          tempPaper = result.tempPaper;
+          papers = result.papers;
+        }
+      })
+      .on('article div:first-child div:first-child a img', {
+        element(element) {
+          const src = element.getAttribute("src");
+          const result = setTempPaper({
+            tempPaper,
+            papers,
+            paperItem: { media: [{ url: src ? src : "", type: "image" }] }
+          });
+          tempPaper = result.tempPaper;
+          papers = result.papers;
+        }
+      })
+      .on('article div:first-child div:first-child a video', {
+        element(element) {
+          const src = element.getAttribute("src");
+          const result = setTempPaper({
+            tempPaper,
+            papers,
+            paperItem: { media: [{ url: src ? src : "", type: "video" }] }
+          });
           tempPaper = result.tempPaper;
           papers = result.papers;
         }
@@ -183,6 +211,9 @@ function setTempPaper({
   tempPaper: Partial<Paper>,
   papers: Paper[],
 } {
+  if(paperItem.media) {
+    tempPaper.media = tempPaper?.media?.length ? [...tempPaper.media, ...paperItem.media] : paperItem.media;
+  }
   if(paperItem.url) {
     tempPaper.url = paperItem.url;
   }

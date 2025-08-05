@@ -12,7 +12,7 @@ export class PodcastXmlGenerator {
   <channel>
     <title>${this.escapeXml(channel.title)}</title>
     <description>${this.escapeXml(channel.description)}</description>
-    <link>${baseUrl}</link>
+    <link>${baseUrl}/podcast</link>
     <language>${channel.language}</language>
     <itunes:author>${this.escapeXml(channel.author)}</itunes:author>
     <itunes:category text="${this.escapeXml(channel.category)}">
@@ -24,7 +24,7 @@ export class PodcastXmlGenerator {
       <itunes:name>${this.escapeXml(channel.author)}</itunes:name>
       <itunes:email>${channel.email}</itunes:email>
     </itunes:owner>` : ''}
-    <atom:link href="${baseUrl}/feed" rel="self" type="application/rss+xml" />
+    <atom:link href="${baseUrl}/podcast" rel="self" type="application/rss+xml" />
     
     ${episodes.map(episode => this.generateEpisodeXml(episode, baseUrl)).join('\n    ')}
   </channel>
@@ -45,7 +45,7 @@ export class PodcastXmlGenerator {
       <title>${this.escapeXml(episode.title)}</title>
       <description>${this.escapeXml(episode.description)}</description>
       ${episode.content ? `<content:encoded><![CDATA[${episode.content}]]></content:encoded>` : ''}
-      <link>${baseUrl}/episodes/${episode.id}</link>
+      <link>${baseUrl}/api/podcast/episodes/${episode.id}</link>
       <guid isPermaLink="false">${episode.id}</guid>
       <pubDate>${this.formatDate(episode.publish_date)}</pubDate>
       <enclosure url="${audio_url}" length="${file_size}" type="audio/mpeg" />

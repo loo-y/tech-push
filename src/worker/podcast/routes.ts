@@ -24,7 +24,10 @@ export const podcastFeed = async (c: Context) => {
       return c.json({ error: "频道信息未找到" }, 404);
     }
 
-    const baseUrl = c.req.url.replace('/feed', '');
+    // const baseUrl = c.req.url.replace('/feed', '');
+    const host = c.req.header('host');
+    const protocol = c.req.header('x-forwarded-proto') || 'https';
+    const baseUrl = `${protocol}://${host}`;
     const xml = PodcastXmlGenerator.generateRssFeed({
       channel,
       episodes,
