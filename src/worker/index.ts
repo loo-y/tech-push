@@ -1,8 +1,7 @@
 import { Hono } from "hono";
-import { HuggingFaceScraper } from "./huggingface/dailypapers";
-import { HuggingFaceScraper as HuggingFaceTrendingScraper } from "./huggingface/trendingpapers";
 import { audioRoutes } from "./audio/routes";
 import { podcastRoutes, podcastFeed } from "./podcast/routes";
+import { huggingFaceRoutes } from "./huggingface/routes";
 
 // 根据文件扩展名获取 Content-Type
 function getContentType(filename: string): string {
@@ -46,17 +45,7 @@ app.get("/podcast-admin", async (c) => {
 });
 
 // API路由
-app.get("/api/huggingface/dailypapers", async (c) => {
-    const scraper = new HuggingFaceScraper();
-    const papers = await scraper.fetchPapers(c);
-    return c.json(papers);
-});
-
-app.get("/api/huggingface/trendingpapers", async (c) => {
-  const scraper = new HuggingFaceTrendingScraper();
-  const papers = await scraper.fetchPapers(c);
-  return c.json(papers);
-});
+app.route("/api/huggingface", huggingFaceRoutes);
 
 
 app.get("/api/", (c) => c.json({ name: "Cloudflare" }));

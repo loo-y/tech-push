@@ -196,6 +196,38 @@ export class HuggingFaceScraper {
     return { abstract, date_published, author: authorList.join(", ").trim() };
   }
 
+  generateRss(papers: Paper[]): string {
+    const rssItems = papers
+      .map((paper) => {
+        const pubDate = paper.date_published
+          ? new Date(paper.date_published).toUTCString()
+          : new Date().toUTCString();
+        const media = paper.media
+          ?.map((m) => `<enclosure url="${m.url}" type="${m.type}" />`)
+          .join("");
+        return `
+          <item>
+            <title>${paper.title}</title>
+            <link>${paper.url}</link>
+            <description>${paper.abstract}</description>
+            <pubDate>${pubDate}</pubDate>
+            <author>${paper.author}</author>
+            ${media}
+          </item>
+        `;
+      })
+      .join("");
+    return `
+      <rss version="2.0">
+        <channel>
+          <title>Hugging Face Trending Papers</title>
+          <link>${BASE_URL}</link>
+          <description>Trending papers from Hugging Face</description>
+          ${rssItems}
+        </channel>
+      </rss>
+    `;
+  }
 }
 
 

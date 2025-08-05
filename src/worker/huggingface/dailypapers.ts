@@ -99,4 +99,33 @@ export class HuggingFaceScraper {
     }
     return { abstract, date_published, author: authorList.join(", ").trim() };
   }
+
+  generateRss(papers: Paper[]): string {
+    const rssItems = papers
+      .map((paper) => {
+        const pubDate = paper.date_published
+          ? new Date(paper.date_published).toUTCString()
+          : new Date().toUTCString();
+        return `
+          <item>
+            <title>${paper.title}</title>
+            <link>${paper.url}</link>
+            <description>${paper.abstract}</description>
+            <pubDate>${pubDate}</pubDate>
+            <author>${paper.author}</author>
+          </item>
+        `;
+      })
+      .join("");
+    return `
+      <rss version="2.0">
+        <channel>
+          <title>Hugging Face Daily Papers</title>
+          <link>${BASE_URL}</link>
+          <description>Daily papers from Hugging Face</description>
+          ${rssItems}
+        </channel>
+      </rss>
+    `;
+  }
 }
