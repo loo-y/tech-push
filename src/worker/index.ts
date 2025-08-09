@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { audioRoutes } from "./audio/routes";
 import { podcastRoutes, podcastFeed } from "./podcast/routes";
 import { huggingFaceRoutes } from "./huggingface/routes";
+import { elevenLabsRoutes } from "./elevenlabs/routes";
 
 // 根据文件扩展名获取 Content-Type
 function getContentType(filename: string): string {
@@ -47,6 +48,7 @@ app.get("/podcast-admin", async (c) => {
 // API路由
 app.route("/api/huggingface", huggingFaceRoutes);
 
+app.route("/api/elevenlabs", elevenLabsRoutes);
 
 app.get("/api/", (c) => c.json({ name: "Cloudflare" }));
 
